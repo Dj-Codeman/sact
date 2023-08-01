@@ -1,5 +1,7 @@
-# rhun - simple sudo in rust
-rhun is a simple alternative to sudo / doas. It is written in rust, accepts no command
-line flags and does not have a configuration file (the source code is the configuration).
-check src/config.rs to configure it. and run `make install` to install it.
-You should not install it from crates.io because you would have no way of configuring it.
+# SACT (superuser act) ## A work in progress
+## A fork of rhun
+
+SACT is a alternative to sudo / doas. It is written in rust, accepts no command
+line flags and it's config data will be encrypted. The configs will have to be edited by uid 0.
+Running `make install` will install it, Running `sact initialize` will run the config editor
+for the first user.
