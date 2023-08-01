@@ -2,19 +2,24 @@ mod config;
 mod pretty;
 
 use std::process::exit;
+use crate::pretty::*;
 
 fn main() {
     let username = sact::get_username().unwrap_or_else(|| {
-        eprintln!("Failed to get username");
+        output("RED", "Failed to get username");
         exit(1);
     });
     let cfg = config::get_config(&username).unwrap_or_else(|| {
-        eprintln!("sact is not configured for {}.", username);
+        output("RED", "sact is not configured for this user.");
         exit(1);
     });
     let args: Vec<String> = std::env::args().collect();
     if args.len() < 2 {
-        eprintln!("Usage: {} <cmd> <args...>", args[0]);
+        let mut msg:String = String::new();
+        msg.push_str("Usage: ");
+        msg.push_str(&args[0].to_string());
+        msg.push_str(" <cmd> <args...>");
+        output("BLUE", &msg);
         exit(1);
     }
     let cmdp = std::fs::canonicalize(
