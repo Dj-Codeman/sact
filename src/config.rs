@@ -1,3 +1,6 @@
+
+use serde::{Deserialize, Serialize};
+
 pub struct ConfigItem {
     /// An array of paths to binaries that the user can execute without entering
     /// a password, if None, all commands will be no_pass.
@@ -25,7 +28,60 @@ pub fn get_config(name: &str) -> Option<ConfigItem> {
     }
 }
 
-// cut here for user config
+// ! For generic user file
+
+#[derive(Serialize, Deserialize)]
+pub struct UserConfig<'a> {
+    pub user_name: &'a str,
+    pub user_id: u32,
+    pub pass_level: &'a str, // ? None (no passwd needed), Some (password needed for some commands) All (Password needed for everything)
+    pub command_nopass: &'a str,
+}
+
+pub fn create_root_user() -> bool {
+
+    // ! Populating the root config
+
+    let root_config: UserConfig = UserConfig {
+        user_name: "root",
+        user_id: 0,
+        pass_level: "none",
+        command_nopass: "none",
+    };
+
+    // Define path for root configs
+
+    // create path to write the file 
+
+    // make the json pretty 
+
+    // write the json file to the config dir
+
+    // encore encrypt the file
+
+    return true;
+}
+
+pub fn create_new_user(name: &str) -> bool {
+
+    // confirm username 
+
+    // prompt for password level
+
+    // make new struct 
+
+    // create path to write the file 
+
+    // make the json pretty 
+
+    // write the json file to the config dir
+
+    // encore encrypt the file
+
+    return true;
+}
+
+// ! end of the config setup
 
 /// Represents if a command is in no_pass, pass or, neither
 pub enum Perm {

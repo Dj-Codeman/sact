@@ -1,11 +1,11 @@
 [package]
-name = "rhun"
+name = "sact"
 version = "0.1.0"
 edition = "2021"
-license="GPL-3.0-or-later"
-authors = ["RHL120 <rhl120@protonmail.com>"]
-description = "A simple alternative to sudo / doas"
-repository = "https://github.com/RHL120/rhun"
+license="MIT"
+authors = ["Dj-Codeman <dwhitfield@ramfield.net>"]
+description = "sudo/doas alternative"
+repository = "https://github.com/Dj-Codeman/sact"
 keywords = ["cli", "sudo", "root", "linux", "gnu"]
 categories = ["command-line-interface", "command-line-utilities"]
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
@@ -17,3 +17,4 @@ panic = "abort"
 
 [dependencies]
 libc = "0.2.139"
+serde = { version = "1.0.126", features = ["derive"] }

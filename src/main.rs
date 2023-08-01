@@ -1,13 +1,15 @@
 mod config;
+mod pretty;
+
 use std::process::exit;
 
 fn main() {
-    let username = rhun::get_username().unwrap_or_else(|| {
+    let username = sact::get_username().unwrap_or_else(|| {
         eprintln!("Failed to get username");
         exit(1);
     });
     let cfg = config::get_config(&username).unwrap_or_else(|| {
-        eprintln!("rhun is not configured for {}.", username);
+        eprintln!("sact is not configured for {}.", username);
         exit(1);
     });
     let args: Vec<String> = std::env::args().collect();
@@ -23,7 +25,7 @@ fn main() {
         {
             args[1].clone()
         } else {
-            rhun::find_bin(&args[1]).unwrap_or_else(|| {
+            sact::find_bin(&args[1]).unwrap_or_else(|| {
                 eprintln!("{}: command not found", args[1]);
                 exit(1)
             })
@@ -36,8 +38,8 @@ fn main() {
         })
         .display()
         .to_string();
-    if !rhun::is_root() {
-        eprintln!("rhun needs setuid to work");
+    if !sact::is_root() {
+        eprintln!("sact needs setuid to work");
         exit(1);
     }
     match cfg.get_perm(&cmdp) {
@@ -47,13 +49,13 @@ fn main() {
         config::Perm::AllowPass => {
             let mut correct = false;
             let max_attempts = 4;
-            let nopass = rhun::check_pass_time(&username).unwrap_or_else(|| {
+            let nopass = sact::check_pass_time(&username).unwrap_or_else(|| {
                 eprintln!("Failed to check last password time, asking for password");
                 false
             });
             if !nopass {
                 for i in 0..max_attempts {
-                    let pass = rhun::read_password(&format!(
+                    let pass = sact::read_password(&format!(
                         "[rhun] password for {}, attempt {} / {}",
                         username,
                         i + 1,
@@ -63,7 +65,7 @@ fn main() {
                         eprintln!("Failed to read password");
                         exit(1);
                     });
-                    let passed = rhun::check_password(&username, &pass).unwrap_or_else(|| {
+                    let passed = sact::check_password(&username, &pass).unwrap_or_else(|| {
                         eprintln!("Failed to verify password");
                         exit(1);
                     });
@@ -79,7 +81,7 @@ fn main() {
                     exit(1);
                 }
             }
-            rhun::update_pass_time(&username)
+            sact::update_pass_time(&username)
                 .or_else(|| Some(eprintln!("Failed to update last password time")));
         }
         _ => {}
