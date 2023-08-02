@@ -1,4 +1,5 @@
 
+mod config;
 use std::{
     env,
     ffi::{CStr, CString},
@@ -6,6 +7,10 @@ use std::{
     mem::MaybeUninit,
     os::unix::prelude::AsRawFd,
 };
+
+use recs::encrypt::create_hash;
+
+use crate::config::PROG;
 
 extern "C" {
     fn readpassphrase(prompt: *const i8, buf: *mut i8, bufsize: usize, flags: i32) -> *mut i8;
@@ -96,4 +101,19 @@ fn owner_is_root(f: &File) -> Option<bool> {
             Some(stat.st_uid == 0 && stat.st_gid == 0)
         }
     }
+}
+
+/// Getting the config files from encore
+pub fn check_vault(name: &str) -> bool {
+    return recs::ping(PROG.to_string(), create_hash(&name.to_string()));
+}
+
+
+/// Checking if this is the first run of sact
+pub fn first_run() -> bool {
+    // let root_conf: 
+    if check_vault("root") {
+        return true;  
+    }
+    return false;
 }

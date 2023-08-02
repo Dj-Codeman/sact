@@ -33,12 +33,12 @@ pub fn output(color: &str, text: &str) {
     }
 
     fn print_text(color: &str, text: &str) {
-        print!("{}{}{}{}", COLOR_BOLD, color, text, COLOR_RESET);
+        print!("{}{}{}{}\n", COLOR_BOLD, color, text, COLOR_RESET);
 
     }
 }
 
-pub fn pass(text: &str) {
+pub fn _pass(text: &str) {
     println!("{}{}{}! {}", COLOR_BOLD, COLOR_GREEN, text, COLOR_RESET);
     std::process::exit(0);
 }
@@ -48,10 +48,10 @@ pub fn notice(text: &str) {
 }
 
 pub fn warn(text: &str) {
-    println!("{}{}Warning: {}! {}", COLOR_BOLD, COLOR_YELLOW, text, COLOR_RESET);
+    println!("{}{}Warning: {}! {}\n", COLOR_BOLD, COLOR_YELLOW, text, COLOR_RESET);
 }
 
-pub fn halt(text: &str) {
+pub fn _halt(text: &str) {
     println!("{}{}Panic!: {}! {}", COLOR_BOLD, COLOR_RED, text, COLOR_RESET);
     std::process::exit(1);
 }
